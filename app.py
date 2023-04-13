@@ -7,7 +7,7 @@ def statrt():
     mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Indianer2004",
+        password="Indianer@2004",
         database="sesd_db"
     )
 
@@ -37,11 +37,17 @@ def delete_user(name):
     return jsonify({'message': 'User deleted'})
 @app.route('/users', methods=['POST'])
 def create_user():
-
+    if existuser(request.json['name']):
+        return jsonify({'message': 'User already exists'})
     mycursor.execute("""INSERT INTO users (name, location, plz) VALUES (%s, %s, %s)""", (request.json['name'], request.json['location'], request.json['plz']))
     mydb.commit()
     return jsonify({'message': 'User created'})
 
+def existuser(name):
+    mycursor.execute("""SELECT * FROM users WHERE name = %s""", (name,))
+    myresult = mycursor.fetchall()
+    print(myresult)
+    return myresult != []
 
 
 
