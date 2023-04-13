@@ -1,13 +1,15 @@
+import base64
+
 from flask import Flask, jsonify, request
 import mysql.connector
-
 app = Flask(__name__)
 #Mysql Connector
 def statrt():
+
     mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password="Indianer@2004",
+        password=base64.b64decode("SW5kaWFuZXIyMDA0".encode('ascii')).decode('ascii'),
         database="sesd_db"
     )
 
